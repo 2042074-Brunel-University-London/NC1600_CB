@@ -161,6 +161,8 @@ main {
   background: linear-gradient(145deg, #080a0e, #0a0c11);
   box-shadow: none;
   cursor: not-allowed;
+  filter: opacity(0.5);
+  transition: all 0.2s ease-out;
 }
 
 .calc-pad button.clean-btn {
