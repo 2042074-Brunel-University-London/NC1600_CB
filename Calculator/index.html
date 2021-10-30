@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+    <main>
+        <div class="calc">
+            <div class="calc-display">
+                <div class="calc-history-wrapper">
+                    <div class="calc-history">
+                        0
+                    </div>
+                </div>
+                <div class="calc-result-wrapper">
+                    <div class='calc-result'>
+                        0
+                    </div>
+                </div>
+            </div>
+            <div class="calc-pad">
+                <div class="calc-pad-advanced">
+                    <button class='cyan'>
+                        C
+                    </button>
+                    <button class='cyan'>
+                        C
+                    </button>
+                    <button class='cyan'>
+                        C
+                    </button>
+                    <button class='cyan' data-type="binary">
+                        X₂
+                    </button>
+                    <button class='cyan active' data-type="decimal">
+                        X₁₀
+                    </button>
+                    <button class='cyan' data-type="hex">
+                        X₁₆
+                    </button>
+                    <button class='cyan' data-hex='A' disabled>
+                        A
+                    </button>
+                    <button class='cyan' data-hex='B' disabled>
+                        B
+                    </button>
+                    <button class='cyan' data-hex='C' disabled>
+                        C
+                    </button>
+                    <button class='cyan' data-hex='D' disabled>
+                        D
+                    </button>
+                    <button class='cyan' data-hex='E' disabled>
+                        E
+                    </button>
+                    <button class='cyan' data-hex='F' disabled>
+                        F
+                    </button>
+                    <button class='cyan'>
+                        C
+                    </button>
+                    <button class='cyan'>
+                        C
+                    </button>
+                    <button class='cyan'>
+                        C
+                    </button>
+                </div>
+                <div class="calc-pad-main">
+                    <button class='cyan clean-btn'>
+                        ⟲
+                    </button>
+                    <button class='cyan'>
+                        ±
+                    </button>
+                    <button class='cyan'>
+                        %
+                    </button>
+                    <button class='cyan'>
+                        ／
+                    </button>
+                    <button data-type="7">
+                        7
+                    </button>
+                    <button data-type="8">
+                        8
+                    </button>
+                    <button data-type="9">
+                        9
+                    </button>
+                    <button class="red">
+                        ×
+                    </button>
+                    <button data-type="4">
+                        4
+                    </button>
+                    <button data-type="5">
+                        5
+                    </button>
+                    <button data-type="6">
+                        6
+                    </button>
+                    <button class="red">
+                        -
+                    </button>
+                    <button data-type="1">
+                        1
+                    </button>
+                    <button data-type="2">
+                        2
+                    </button>
+                    <button data-type="3">
+                        3
+                    </button>
+                    <button class="red">
+                        +
+                    </button>
+                    <button>
+                        ⌫
+                    </button>
+                    <button data-type="0">
+                        0
+                    </button>
+                    <button>
+                        .
+                    </button>
+                    <button class="red">
+                        ＝
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script type="text/javascript" src="script.js"></script>
+</body>
+
+</html>
