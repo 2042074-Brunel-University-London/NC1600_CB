@@ -190,7 +190,7 @@ function reset() {
 }
 /**
  * Handles pressed key
- * @param {*} key 
+ * @param {keys} key 
  */
 function handleKey(key) {
     switch (key) {
@@ -200,7 +200,7 @@ function handleKey(key) {
          */
         case keys.eval:
             evaluate();
-            if (isNaN(state[0])) {
+            if (isNaN(parseFloat(state[0].toString(radix), radix))) {
                 lockdown()
             }
             break;
@@ -310,7 +310,7 @@ function handleKey(key) {
          * Default function (case) to handle entered number
          */
         default:
-            if (key) {
+            if (key &&  parseFloat(state[0] + key, radix).toString(10).length <= 16) {
                 state[0] = parseFloat(state[0] + key, radix).toString(radix);
             }
             break;
