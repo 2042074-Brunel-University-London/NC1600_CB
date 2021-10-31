@@ -403,7 +403,7 @@ function handleCalcValueChange(newVal) {
 function handleUnitKey(key) {
     switch (key) {
         /**
-         * Calculates celsium in fahrenheit
+         * Converts celsium to fahrenheit
          * @author Beier Wang
          */
         case unitKeys.celsius:
@@ -413,7 +413,7 @@ function handleUnitKey(key) {
             break;
 
         /**
-         * Calculates celsium in fahrenheit
+         * Converts fahrenheit to celsium
          * @author Beier Wang
          */
         case unitKeys.fahrenheit:
