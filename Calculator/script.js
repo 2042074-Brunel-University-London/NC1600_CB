@@ -3,13 +3,11 @@
 /**
  * Buttons list from the children of div.calc-pad
  */
-const buttons = [...document.getElementsByClassName('calc-pad')[0].children].map(c => [...c.children]).flat()
+const buttons = [...document.getElementsByClassName('calc-pad')[0].children].map(c => [...c.children]).flat().filter(i => i.getAttribute('data-type') !== 'units' && i.tagName === "BUTTON");
 /**
  * Adding click listeners to every button from the buttons list
  */
-buttons.forEach(btn => {
-    btn.addEventListener("click", handleBtn)
-})
+buttons.forEach(btn => btn.addEventListener("click", handleBtn));
 
 /**
  * Calculator states: current, previous, operation
@@ -83,7 +81,7 @@ function setRadix(r) {
 
 /**
  * Alternitve to parseInt for numbers with floating point
- * @returns {string} parsed number
+ * @returns {number} parsed number
  */
 function parseFloat(string, radix) {
     let res;
@@ -149,12 +147,16 @@ function handleBtn(e) {
  */
 function updateCalc() {
     document.getElementsByClassName('calc-result')[0].textContent = format(state[0]);
-    console.log(state[0])
     if (state[2]) {
         document.getElementsByClassName('calc-history')[0].textContent = `${format(state[1])} ${state[2]}`
     } else {
         document.getElementsByClassName('calc-history')[0].textContent = 0
     }
+
+    /**
+     * Sync div.units-output with the entered number
+     */
+    state[2] ? handleCalcValueChange(parseFloat(state[1], radix)) : handleCalcValueChange(parseFloat(state[0], radix));
 }
 
 /**
@@ -170,11 +172,17 @@ function format(num) {
     return decimals ? `${res}.${decimals}`.toUpperCase() : res.toUpperCase()
 }
 
+/**
+ * Disables input numbers
+ */
 function lockdown() {
     buttons.forEach(b => b.disabled = true);
     document.querySelector('[data-button="reset"]').disabled = false;
 }
 
+/**
+ * Resets calculator states and buttons
+ */
 function reset() {
     state = ['0', '0', null]
     buttons.forEach(b => b.disabled = false);
@@ -306,4 +314,102 @@ function handleKey(key) {
             }
             break;
     }
+}
+
+const selectElement = document.querySelector('.select-unit');
+const unitBtns = document.querySelectorAll('[data-type=units]');
+const unitsOutput = document.querySelector('.units-output');
+
+selectElement.addEventListener('change', handleUnitSystemChange);
+
+/**
+ * Unit buttons' click listener
+ */
+unitBtns.forEach(b => b.addEventListener('click', handleUnitBtnClick))
+
+const units = {
+    temp: 'Temperature',
+    mass: 'Mass',
+    length: "Length"
+}
+
+const unitKeys = {
+    fahrenheit: '°F',
+    celsius: '°C'
+}
+
+/**
+ * Units states: selected unit (from), value in selected unit
+ */
+unitsState = ['', ''];
+
+/**
+ * Update unit buttons content
+ * @param {string} first unit button 
+ * @param {string} second unit button
+ */
+function updateUnitBtns(f, s) {
+    unitsState[0] = f
+    handleUnitKey(f);
+
+    unitBtns.forEach(b => b.disabled = false);
+    unitBtns[0].textContent = f;
+    unitBtns[0].classList.add('active');
+
+    unitBtns[1].textContent = s;
+    unitBtns[1].classList.remove('active');
+
+    unitsOutput.classList.remove('disabled');
+}
+
+function handleUnitSystemChange(e) {
+    switch (e.target.value) {
+        case units.temp:
+            updateUnitBtns(unitKeys.celsius, unitKeys.fahrenheit);
+            break;
+
+        case units.mass:
+            break;
+
+        default:
+            unitBtns.forEach(b => {
+                b.textContent = ''
+                b.classList.remove('active');
+                b.disabled = true;
+            })
+            unitsOutput.classList.add('disabled');
+            unitsOutput.textContent = unitsState[1]
+            break;
+    }
+}
+
+function handleCalcValueChange(newVal) {
+    unitsState[1] = newVal
+    handleUnitKey(unitsState[0]);
+}
+
+function handleUnitKey(key) {
+    switch (key) {
+        case unitKeys.celsius:
+            unitsState[0] = unitKeys.celsius;
+            let fahrenheit = unitsState[1] * 9 / 5 + 32;
+            unitsOutput.textContent = ((Number(fahrenheit.toFixed(2)).toPrecision(8) / 1).toString().substring(0, 9) + unitKeys.fahrenheit);
+            break;
+
+        case unitKeys.fahrenheit:
+            unitsState[0] = unitKeys.fahrenheit;
+            let celsius = (unitsState[1] - 32) * 5 / 9;
+            unitsOutput.textContent = ((Number(celsius.toFixed(2)).toPrecision(8) / 1).toString().substring(0, 9) + unitKeys.celsius);
+            break;
+
+        default:
+            break;
+    }
+}
+
+function handleUnitBtnClick(e) {
+    const key = e.target.textContent;
+    handleUnitKey(key)
+    unitBtns.forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
 }

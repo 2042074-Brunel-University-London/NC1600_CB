@@ -26,14 +26,31 @@
             </div>
             <div class="calc-pad">
                 <div class="calc-pad-advanced">
-                    <button class='cyan'>
-                        C
+                    <select class='select-unit cyan column-span-2'>
+                        <option selected value>
+                            Select unit
+                        </option>
+                        <option>
+                            Temperature
+                        </option>
+                        <option>
+                            Mass
+                        </option>
+                        <option>
+                            Length
+                        </option>
+                        <option>
+                            Length
+                        </option>
+                    </select>
+                    <button class="active" data-type="units" disabled>
+                        
                     </button>
-                    <button class='cyan'>
-                        C
-                    </button>
-                    <button class='cyan'>
-                        C
+                    <div class="units-output column-span-2 disabled" >
+                        
+                    </div>
+                    <button data-type="units" disabled>
+                        
                     </button>
                     <button class='cyan' data-type="binary">
                         X₂
@@ -61,15 +78,6 @@
                     </button>
                     <button class='cyan' data-radix='16' disabled>
                         F
-                    </button>
-                    <button class='cyan'>
-                        C
-                    </button>
-                    <button class='cyan'>
-                        C
-                    </button>
-                    <button class='cyan'>
-                        C
                     </button>
                 </div>
                 <div class="calc-pad-main">
