@@ -81,7 +81,7 @@ function setRadix(r) {
 
 /**
  * Alternitve to parseInt for numbers with floating point
- * @returns {number} parsed number
+ * @returns {Number} parsed number
  */
 function parseFloat(string, radix) {
     let res;
@@ -344,7 +344,7 @@ const unitKeys = {
 unitsState = ['', ''];
 
 /**
- * Update unit buttons content
+ * Update output, unit buttons content and states 
  * @param {string} first unit button 
  * @param {string} second unit button
  */
@@ -362,6 +362,10 @@ function updateUnitBtns(f, s) {
     unitsOutput.classList.remove('disabled');
 }
 
+/**
+ * Function to handle select changes
+ * @param {*} e 
+ */
 function handleUnitSystemChange(e) {
     switch (e.target.value) {
         case units.temp:
@@ -383,19 +387,35 @@ function handleUnitSystemChange(e) {
     }
 }
 
+/**
+ * Function to update current value
+ * @param {Number} value with base of 10 
+ */
 function handleCalcValueChange(newVal) {
     unitsState[1] = newVal
     handleUnitKey(unitsState[0]);
 }
 
+/**
+ * Function to calculte units
+ * @param {unitKeys} key 
+ */
 function handleUnitKey(key) {
     switch (key) {
+        /**
+         * Calculates celsium in fahrenheit
+         * @author Beier Wang
+         */
         case unitKeys.celsius:
             unitsState[0] = unitKeys.celsius;
             let fahrenheit = unitsState[1] * 9 / 5 + 32;
             unitsOutput.textContent = ((Number(fahrenheit.toFixed(2)).toPrecision(8) / 1).toString().substring(0, 9) + unitKeys.fahrenheit);
             break;
 
+        /**
+         * Calculates celsium in fahrenheit
+         * @author Beier Wang
+         */
         case unitKeys.fahrenheit:
             unitsState[0] = unitKeys.fahrenheit;
             let celsius = (unitsState[1] - 32) * 5 / 9;
@@ -406,6 +426,11 @@ function handleUnitKey(key) {
             break;
     }
 }
+
+/**
+ * Function to handle unit button click
+ * @param {Event} e 
+ */
 
 function handleUnitBtnClick(e) {
     const key = e.target.textContent;
