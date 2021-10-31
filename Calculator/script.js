@@ -247,7 +247,7 @@ function handleKey(key) {
 
                 /**
                  * Function to convert to hexidecimal system
-                 * @author 
+                 * @author Akbarshokh Sobirov
                  */
                 case keys.toHex:
                     state[0] = parseFloat(state[0], radix).toString(16);
@@ -260,7 +260,7 @@ function handleKey(key) {
 
                 /**
                  * Function to convert to decimal system
-                 * @author
+                 * @author Akbarshokh Sobirov
                  */
                 case keys.toNormal:
                     state[0] = parseFloat(state[0], radix).toString(10);
@@ -273,7 +273,8 @@ function handleKey(key) {
 
                 /**
                  * Function to convert to binary numeral system
-                 * @author
+                 * Was assigned to Amaan Ali
+                 * @author Akbarshokh Sobirov
                  */
                 case keys.toBinary:
                     state[0] = parseFloat(state[0], radix).toString(2);
@@ -328,14 +329,19 @@ selectElement.addEventListener('change', handleUnitSystemChange);
 unitBtns.forEach(b => b.addEventListener('click', handleUnitBtnClick))
 
 const units = {
+    unset: 'Select unit',
     temp: 'Temperature',
     mass: 'Mass',
     length: "Length"
 }
 
 const unitKeys = {
+    celsius: '°C',
     fahrenheit: '°F',
-    celsius: '°C'
+    gramms: 'g',
+    ounce: 'oz',
+    cm: 'cm',
+    inches: '″'
 }
 
 /**
@@ -344,7 +350,39 @@ const unitKeys = {
 unitsState = ['', ''];
 
 /**
- * Update output, unit buttons content and states 
+ * Function to handle select changes.
+ * @param {Event} e 
+ */
+function handleUnitSystemChange(e) {
+    switch (e.target.value) {
+        case units.temp:
+            updateUnitBtns(unitKeys.celsius, unitKeys.fahrenheit);
+            break;
+
+        case units.mass:
+            updateUnitBtns(unitKeys.gramms, unitKeys.ounce);
+            break;
+
+        case units.length:
+            updateUnitBtns(unitKeys.cm, unitKeys.inches);
+            break;
+
+        default:
+            unitsState = ['', ''];
+            unitBtns.forEach(b => {
+                b.textContent = ''
+                b.classList.remove('active');
+                b.disabled = true;
+            });
+            unitsOutput.classList.add('disabled');
+            unitsOutput.textContent = ''
+            break;
+    }
+}
+
+/**
+ * Update output, unit buttons content and states. 
+ * Displays two buttons
  * @param {string} first unit button 
  * @param {string} second unit button
  */
@@ -363,28 +401,14 @@ function updateUnitBtns(f, s) {
 }
 
 /**
- * Function to handle select changes
- * @param {*} e 
+ * Function to handle unit button click
+ * @param {Event} e 
  */
-function handleUnitSystemChange(e) {
-    switch (e.target.value) {
-        case units.temp:
-            updateUnitBtns(unitKeys.celsius, unitKeys.fahrenheit);
-            break;
-
-        case units.mass:
-            break;
-
-        default:
-            unitBtns.forEach(b => {
-                b.textContent = ''
-                b.classList.remove('active');
-                b.disabled = true;
-            })
-            unitsOutput.classList.add('disabled');
-            unitsOutput.textContent = unitsState[1]
-            break;
-    }
+function handleUnitBtnClick(e) {
+    const key = e.target.textContent;
+    handleUnitKey(key)
+    unitBtns.forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
 }
 
 /**
@@ -407,9 +431,8 @@ function handleUnitKey(key) {
          * @author Beier Wang
          */
         case unitKeys.celsius:
-            unitsState[0] = unitKeys.celsius;
             let fahrenheit = unitsState[1] * 9 / 5 + 32;
-            unitsOutput.textContent = ((Number(fahrenheit.toFixed(2)).toPrecision(8) / 1).toString().substring(0, 9) + unitKeys.fahrenheit);
+            handleConversion(unitKeys.celsius, (Number(fahrenheit.toFixed(2)).toPrecision(9) / 1).toString().substring(0, 9) + unitKeys.fahrenheit);
             break;
 
         /**
@@ -417,24 +440,70 @@ function handleUnitKey(key) {
          * @author Beier Wang
          */
         case unitKeys.fahrenheit:
-            unitsState[0] = unitKeys.fahrenheit;
             let celsius = (unitsState[1] - 32) * 5 / 9;
-            unitsOutput.textContent = ((Number(celsius.toFixed(2)).toPrecision(8) / 1).toString().substring(0, 9) + unitKeys.celsius);
+            handleConversion(unitKeys.fahrenheit, (Number(celsius.toFixed(2)).toPrecision(9) / 1).toString().substring(0, 9) + unitKeys.celsius);
+            break;
+
+        /**
+         * Converts gramms to ounce
+         * Was assigned to: Rakhmatullokh
+         * @author Akbarshokh Sobirov
+         */
+        case unitKeys.gramms:
+            let oz = unitsState[1] / 28.35;
+            handleConversion(unitKeys.gramms, (Number(oz.toFixed(3)).toPrecision(8) / 1).toString().substring(0, 8) + ' ' + unitKeys.ounce)
+            break;
+
+        /**
+          * Converts ounce to gramms
+          * Was assigned to: Rakhmatullokh
+          * @author Akbarshokh Sobirov
+          */
+        case unitKeys.ounce:
+            let gramms = unitsState[1] * 28.35;
+            handleConversion(unitKeys.ounce, (Number(gramms.toFixed(3)).toPrecision(8) / 1).toString().substring(0, 8) + ' ' + unitKeys.gramms);
+            break;
+
+        /**
+          * Converts centimeters to inches
+          * Was assigned to: Rakhmatullokh
+          * @author Akbarshokh Sobirov
+          */
+        case unitKeys.cm:
+            let realFeet = (unitsState[1] / 2.54) / 12;
+            let inches = Math.round((realFeet - Math.floor(realFeet)) * 12);
+            let feet = Number(Math.floor(realFeet).toFixed(7) / 1);
+
+            if (feet.toString().length <= 7) {
+                handleConversion(unitKeys.cm, (Number(feet.toFixed(7) / 1).toString().substring(0, 7) + "′" + inches + '″'));
+            } else {
+                handleConversion(unitKeys.cm, (Number(feet.toFixed(10) / 1).toString().substring(0, 10) + "′"));
+            }
+            break;
+
+        /**
+          * Converts inches to centimeters
+          * Was assigned to: Rakhmatullokh
+          * @author Akbarshokh Sobirov
+          */
+        case unitKeys.inches:
+            let cm = unitsState[1] * 2.54;
+            handleConversion(unitKeys.inches, (Number(cm.toFixed(3)).toPrecision(8) / 1).toString().substring(0, 8) + ' ' + unitKeys.cm);
             break;
 
         default:
+            unitsOutput.textContent = ''
             break;
     }
 }
 
 /**
- * Function to handle unit button click
- * @param {Event} e 
+ * Sets current unit and outputs result
+ * @param {unitKeys} key 
+ * @param {string} result 
  */
-
-function handleUnitBtnClick(e) {
-    const key = e.target.textContent;
-    handleUnitKey(key)
-    unitBtns.forEach(b => b.classList.remove('active'));
-    e.target.classList.add('active');
+function handleConversion(key, result) {
+    unitsState[0] = key;
+    unitsOutput.textContent = result;
 }
+
