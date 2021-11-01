@@ -85,6 +85,9 @@ function setRadix(r) {
  */
 function parseFloat(string, radix) {
     let res;
+    if (typeof string === "number") {
+        string = string.toString(radix);
+    }
     const [i, d] = string.split('.');
     const iNum = parseInt(i, radix);
     const sign = Infinity / iNum === Infinity ? 1 : -1
@@ -196,7 +199,6 @@ function handleKey(key) {
     switch (key) {
         /**
          * Evaluate: calculate data from states
-         * @author Akbarshokh Sobirov
          */
         case keys.eval:
             evaluate();
@@ -210,6 +212,7 @@ function handleKey(key) {
          */
         case Object.keys(keys).find(k => keys[k] === key) && key:
             switch (key) {
+
                 /**
                  * Clean: reset all states
                  * @author Akbarshokh Sobirov
@@ -284,10 +287,19 @@ function handleKey(key) {
                     updateCalc();
 
                     break;
+                /**
+                 * Handle plus, minus, division, multiplocation keys
+                 */
+                case keys.plus:
+                case keys.minus:
+                case keys.division:
+                case keys.multiplication:
+                    if (state[0] && state[1]) {
+                        evaluate();
+                    }
 
                 /**
-                 * Handles the state transfer
-                 * @author Akbarshokh Sobirov
+                 * Handle the state transfer
                  */
                 default:
                     state[2] = key;
@@ -310,7 +322,7 @@ function handleKey(key) {
          * Default function (case) to handle entered number
          */
         default:
-            if (key &&  parseFloat(state[0] + key, radix).toString(10).length <= 16) {
+            if (key && parseFloat(state[0] + key, radix).toString(10).length <= 16) {
                 state[0] = parseFloat(state[0] + key, radix).toString(radix);
             }
             break;

@@ -78,11 +78,6 @@ main {
   margin-right: calc(var(--calc-pad-spacing) + 0.25rem);
 }
 
-.calc-result-wrapper{
-  display: flex;
-  direction: rtlx;
-}
-
 .calc-display .calc-result,
 .calc-display .calc-history {
   float: right;
