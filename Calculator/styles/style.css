@@ -64,18 +64,27 @@ main {
 
 .calc-display {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-end;
   height: 200px;
   width: 100%;
 }
 
-.calc-display .calc-result-wrapper,
-.calc-display .calc-history-wrapper {
-  min-width: 0;
-  overflow: hidden;
+.calc-display .calc-display-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   margin-left: calc(var(--calc-pad-spacing) + 0.25rem);
   margin-right: calc(var(--calc-pad-spacing) + 0.25rem);
+  width: 100%;
+  overflow: hidden;
+}
+
+.calc-display .calc-result-wrapper,
+.calc-display .calc-history-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
 }
 
 .calc-display .calc-result,

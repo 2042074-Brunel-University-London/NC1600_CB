@@ -109,11 +109,9 @@ function evaluate() {
     switch (state[2]) {
         case keys.plus:
             state[0] = (parseFloat(state[1], radix) + parseFloat(state[0], radix)).toString(radix);
-            state[2] = keys.plus
             break;
 
         case keys.minus:
-            console.log(state[1], state[0])
             state[0] = (parseFloat(state[1], radix) - parseFloat(state[0], radix)).toString(radix);
             break;
 
@@ -149,6 +147,7 @@ function handleBtn(e) {
  * Update calculator element values
  */
 function updateCalc() {
+    console.log(state[0])
     document.getElementsByClassName('calc-result')[0].textContent = format(state[0]);
     if (state[2]) {
         document.getElementsByClassName('calc-history')[0].textContent = `${format(state[1])} ${state[2]}`
@@ -170,9 +169,9 @@ function format(num) {
 
     const ints = str.split('.')[0];
     const decimals = str.split('.')[1];
-
+    console.log(decimals)
     let res = ints ? ints.replace(/,(?=[^\s])/g, " ") : "0";
-    return decimals ? `${res}.${decimals}`.toUpperCase() : res.toUpperCase()
+    return decimals !== undefined ? `${res}.${decimals}`.toUpperCase() : res.toUpperCase()
 }
 
 /**
@@ -257,7 +256,6 @@ function handleKey(key) {
                     state[1] = parseFloat(state[1], radix).toString(16);
 
                     setRadix(16)
-                    updateCalc();
 
                     break;
 
@@ -270,13 +268,12 @@ function handleKey(key) {
                     state[1] = parseFloat(state[1], radix).toString(10);
 
                     setRadix(10)
-                    updateCalc();
 
                     break;
 
                 /**
                  * Function to convert to binary numeral system
-                 * Was assigned to Amaan Ali
+                 * @assigned Amaan Ali
                  * @author Akbarshokh Sobirov
                  */
                 case keys.toBinary:
@@ -284,7 +281,6 @@ function handleKey(key) {
                     state[1] = parseFloat(state[1], radix).toString(2);
 
                     setRadix(2);
-                    updateCalc();
 
                     break;
                 /**
@@ -315,7 +311,7 @@ function handleKey(key) {
             if (state[0].includes('.')) {
                 break;
             }
-            state[0] += '.'
+            state[0] += '.';
             break;
 
         /**
@@ -458,7 +454,7 @@ function handleUnitKey(key) {
 
         /**
          * Converts gramms to ounce
-         * Was assigned to: Rakhmatullokh
+         * @assigned Rakhmatullokh
          * @author Akbarshokh Sobirov
          */
         case unitKeys.gramms:
@@ -468,7 +464,7 @@ function handleUnitKey(key) {
 
         /**
           * Converts ounce to gramms
-          * Was assigned to: Rakhmatullokh
+          * @assigned Rakhmatullokh
           * @author Akbarshokh Sobirov
           */
         case unitKeys.ounce:
@@ -478,7 +474,7 @@ function handleUnitKey(key) {
 
         /**
           * Converts centimeters to inches
-          * Was assigned to: Rakhmatullokh
+          * @assigned Rakhmatullokh
           * @author Akbarshokh Sobirov
           */
         case unitKeys.cm:
@@ -495,7 +491,7 @@ function handleUnitKey(key) {
 
         /**
           * Converts inches to centimeters
-          * Was assigned to: Rakhmatullokh
+          * @assigned Rakhmatullokh
           * @author Akbarshokh Sobirov
           */
         case unitKeys.inches:
