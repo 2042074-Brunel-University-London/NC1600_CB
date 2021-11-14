@@ -271,7 +271,6 @@ function handleKey(key) {
 
                 /**
                  * Function to convert to binary numeral system
-                 * @assigned Amaan Ali
                  * @author Akbarshokh Sobirov
                  */
                 case keys.toBinary:
@@ -282,7 +281,7 @@ function handleKey(key) {
 
                     break;
                 /**
-                 * Handle plus, minus, division, multiplocation keys
+                 * Handle plus, minus, division, multiplication keys
                  */
                 case keys.plus:
                 case keys.minus:
@@ -344,7 +343,7 @@ const units = {
 const unitKeys = {
     celsius: '°C',
     fahrenheit: '°F',
-    gramms: 'g',
+    grams: 'g',
     ounce: 'oz',
     cm: 'cm',
     inches: '″'
@@ -366,7 +365,7 @@ function handleUnitSystemChange(e) {
             break;
 
         case units.mass:
-            updateUnitBtns(unitKeys.gramms, unitKeys.ounce);
+            updateUnitBtns(unitKeys.grams, unitKeys.ounce);
             break;
 
         case units.length:
@@ -451,28 +450,25 @@ function handleUnitKey(key) {
             break;
 
         /**
-         * Converts gramms to ounce
-         * @assigned Rakhmatullokh
+         * Converts grams to ounce
          * @author Akbarshokh Sobirov
          */
-        case unitKeys.gramms:
+        case unitKeys.grams:
             let oz = unitsState[1] / 28.35;
-            handleConversion(unitKeys.gramms, (Number(oz.toFixed(3)).toPrecision(8) / 1).toString().substring(0, 8) + ' ' + unitKeys.ounce)
+            handleConversion(unitKeys.grams, (Number(oz.toFixed(3)).toPrecision(8) / 1).toString().substring(0, 8) + ' ' + unitKeys.ounce)
             break;
 
         /**
-          * Converts ounce to gramms
-          * @assigned Rakhmatullokh
+          * Converts ounce to grams
           * @author Akbarshokh Sobirov
           */
         case unitKeys.ounce:
-            let gramms = unitsState[1] * 28.35;
-            handleConversion(unitKeys.ounce, (Number(gramms.toFixed(3)).toPrecision(8) / 1).toString().substring(0, 8) + ' ' + unitKeys.gramms);
+            let grams = unitsState[1] * 28.35;
+            handleConversion(unitKeys.ounce, (Number(grams.toFixed(3)).toPrecision(8) / 1).toString().substring(0, 8) + ' ' + unitKeys.grams);
             break;
 
         /**
           * Converts centimeters to inches
-          * @assigned Rakhmatullokh
           * @author Akbarshokh Sobirov
           */
         case unitKeys.cm:
@@ -489,7 +485,6 @@ function handleUnitKey(key) {
 
         /**
           * Converts inches to centimeters
-          * @assigned Rakhmatullokh
           * @author Akbarshokh Sobirov
           */
         case unitKeys.inches:
