@@ -104,12 +104,14 @@ main {
 }
 
 .calc-display .calc-result {
+  overflow: scroll;
   font-size: 3rem;
   padding-bottom: 0.5rem;
 }
 
-.calc-display .calc-result {
-  overflow: scroll;
+.calc-display .calc-result::-webkit-scrollbar,
+.units-output::-webkit-scrollbar {
+  display: none;
 }
 
 .calc-pad {

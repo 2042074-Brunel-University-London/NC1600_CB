@@ -147,7 +147,6 @@ function handleBtn(e) {
  * Update calculator element values
  */
 function updateCalc() {
-    console.log(state[0])
     document.getElementsByClassName('calc-result')[0].textContent = format(state[0]);
     if (state[2]) {
         document.getElementsByClassName('calc-history')[0].textContent = `${format(state[1])} ${state[2]}`
@@ -169,8 +168,7 @@ function format(num) {
 
     const ints = str.split('.')[0];
     const decimals = str.split('.')[1];
-    console.log(decimals)
-    let res = ints ? ints.replace(/,(?=[^\s])/g, " ") : "0";
+    let res = ints ? radix === 10 ? ints.replace(/\B(?=(\d{3})+(?!\d))/g, " ") : ints : "0";
     return decimals !== undefined ? `${res}.${decimals}`.toUpperCase() : res.toUpperCase()
 }
 
