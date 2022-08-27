@@ -3,7 +3,8 @@
 /**
  * Buttons list from the children of div.calc-pad
  */
-const buttons = [...document.getElementsByClassName('calc-pad')[0].children].map(c => [...c.children]).flat().filter(i => i.getAttribute('data-type') !== 'units' && i.tagName === "BUTTON");
+const buttons = [...document.getElementsByClassName('calc-pad')[0].children].map(c => [...c.children]).flat().filter(i =>
+    i.getAttribute('data-type') !== 'units' && i.tagName === "BUTTON");
 /**
  * Adding click listeners to every button from the buttons list
  */
